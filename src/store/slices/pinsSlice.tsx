@@ -20,6 +20,6 @@ export const pinsSlice = createSlice({
 });
 
 export const { setPins } = pinsSlice.actions;
-export const selectPins = (state: PinsState) => state.pins;
+export const selectPins = (state: PinsState) => state.pins.pins;
 
 export default pinsSlice.reducer;

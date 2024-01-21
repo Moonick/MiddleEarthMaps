@@ -53,7 +53,7 @@ const MapScreen = () => {
   };
 
   const onRegionChangeComplete = (newRegion: any) => {
-    const visiblePins = fetchedPins.filter((pin) => isPinInRegion(pin, newRegion));
+    const visiblePins = fetchedPins.filter((pin: PinType) => isPinInRegion(pin, newRegion));
     setVisiblePins(visiblePins);
     setShowPins(newRegion.latitudeDelta < ZOOM_THRESHOLD);
   };

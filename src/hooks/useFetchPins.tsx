@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { setPins } from "../store/slices/pinsSlice";
 
 const useFetchPins = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -11,7 +12,8 @@ const useFetchPins = () => {
     const fetchPins = async () => {
       try {
         const response = await axios.get("http://192.168.1.186:3000/api/pins");
-        dispatch(response.data);
+        dispatch(setPins(response.data));
+        setLoading(false);
       } catch (err: any) {
         setError(err.message || "Unexpected Error!");
         setLoading(false);
