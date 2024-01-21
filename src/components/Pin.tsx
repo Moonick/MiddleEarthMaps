@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Card, Text as TextCard } from "react-native-paper";
+
 import { ConnectorType, PinType } from "./types";
+import { getPinAddress } from "../utils";
 
 const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
   const [pinAddress, setPinAddress] = useState("");
 
   useEffect(() => {
-    async function fetchAddress() {
-      if (pin.latitude && pin.longitude) {
-        const address = await getPinAddress(pin.latitude, pin.longitude);
+    const fetchAddress = async () => {
+      if (latitude && longitude) {
+        const address = await getPinAddress(latitude, longitude);
         setPinAddress(address);
       }
-    }
-
+    };
     fetchAddress();
   }, [latitude, longitude]);
   const availableConnectors = connectors.filter((el) => el.status === "available");
@@ -31,7 +32,7 @@ const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
     <>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{title}</Text>
-        <Text style={styles.headerAddress}>{title}</Text>
+        <Text style={styles.headerAddress}>{pinAddress}</Text>
       </View>
       <Text> {connectors.map(renderConnector)}</Text>
     </>

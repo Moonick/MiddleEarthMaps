@@ -1,4 +1,5 @@
 import { PinType, LocationType } from "./components/types";
+import * as Location from 'expo-location';
 
 const deg2rad = (deg: number): number => {
   return deg * (Math.PI / 180);
@@ -26,4 +27,32 @@ const findClosestPins = (userLocation: LocationType, pins: PinType[], maxPins: n
     .slice(0, maxPins);
 };
 
-export { getDistance, findClosestPins };
+const getPinAddress = async (latitude: number, longitude: number) => {
+  try {
+    const results = await Location.reverseGeocodeAsync({
+      latitude,
+      longitude,
+    });
+
+    if (results.length > 0) {
+      const firstResult = results[0];
+      const addressParts = [
+        firstResult.street,
+        firstResult.city,
+        firstResult.region,
+        firstResult.country
+      ];
+      const address = addressParts.filter(part => part != null).join(', ');
+
+      return address.length > 0 ? address : 'Address details not available';
+    } else {
+      return 'Address not found';
+    }
+  } catch (error) {
+    console.error(error);
+    return 'Error fetching address';
+  }
+};
+
+export { getDistance, findClosestPins, getPinAddress };
+
