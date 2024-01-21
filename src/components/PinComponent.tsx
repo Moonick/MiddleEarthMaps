@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Button, Card, Text as TextCard } from "react-native-paper";
+import { Button, DataTable } from "react-native-paper";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Linking } from "react-native";
 
-import { ConnectorType, PinType } from "./types";
-import { getPinAddress } from "../utils";
+import { PinType } from "./types";
+import { getPinAddress, openDirections } from "../utils";
 
 const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
   const [pinAddress, setPinAddress] = useState("");
@@ -21,28 +20,6 @@ const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
     fetchAddress();
   }, [latitude, longitude]);
 
-  const openDirections = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          console.log("Don't know how to open this URL: " + url);
-        }
-      })
-      .catch((err) => console.error("An error occurred", err));
-  };
-
-  const renderConnector = ({ type, status }: ConnectorType, index: number) => {
-    return (
-      <Card.Content key={type + index}>
-        <TextCard variant="bodyMedium">{`Type: ${type}`}</TextCard>
-        <TextCard variant="bodyMedium">{`Status: ${status}`}</TextCard>
-      </Card.Content>
-    );
-  };
-
   return (
     <>
       <View style={styles.header}>
@@ -56,13 +33,27 @@ const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
         <Text style={styles.headerAddress}>{pinAddress}</Text>
       </View>
 
-      <Button style={styles.directionsButton} mode="contained" onPress={openDirections}>
+      <Button style={styles.directionsButton} mode="contained" onPress={() => openDirections({ longitude, latitude })}>
         <FontAwesome5 name="directions" size={16} color="#fff" />
         Get Direcrtions
       </Button>
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>Type</DataTable.Title>
+          <DataTable.Title>Status</DataTable.Title>
+        </DataTable.Header>
 
-      <View style={styles.connectorsWrapper}></View>
-      <Text> {connectors.map(renderConnector)}</Text>
+        {connectors.map(({ type, status }, index) => (
+          <DataTable.Row key={type + index}>
+            <DataTable.Cell>{type}</DataTable.Cell>
+            <DataTable.Cell>
+              <View style={status === "available" ? styles.available : styles.unavailable}>
+                <Text style={styles.textStatus}>{status}</Text>
+              </View>
+            </DataTable.Cell>
+          </DataTable.Row>
+        ))}
+      </DataTable>
     </>
   );
 };
@@ -83,8 +74,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    // borderColor: 'red',
-    // borderWidth: 1,
   },
   connectorsWapper: {
     flexDirection: "row",
@@ -101,7 +90,7 @@ const styles = StyleSheet.create({
   },
   headerAddress: {
     fontSize: 14,
-    color: "#757575", // Grey text
+    color: "#757575",
   },
   directionsButton: {
     flexDirection: "row",
@@ -109,5 +98,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 15,
   },
-  connectorsWrapper: {},
+  available: {
+    padding: 7,
+    color: "#fff",
+    backgroundColor: "#6dc770",
+    borderRadius: 100,
+    minWidth: 100,
+    textAlign: "center",
+    alignItems: "center",
+  },
+  unavailable: {
+    padding: 7,
+    backgroundColor: "#f47e75", // Example color for unavailable
+    borderRadius: 100,
+    minWidth: 100,
+    textAlign: "center",
+    alignItems: "center",
+  },
+  textStatus: {
+    color: "#fff",
+  },
 });

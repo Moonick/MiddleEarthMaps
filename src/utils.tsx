@@ -1,5 +1,6 @@
 import { PinType, LocationType } from "./components/types";
 import * as Location from "expo-location";
+import { Linking } from "react-native";
 
 export const isPinInRegion = (pin: PinType, region: any): boolean => {
   const latDeltaHalf = region.latitudeDelta / 2;
@@ -64,4 +65,17 @@ export const getPinAddress = async (latitude: number, longitude: number) => {
     console.error(error);
     return "Error fetching address";
   }
+};
+
+export const openDirections = ({ latitude, longitude }: { latitude: number, longitude: number }) => {
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+  Linking.canOpenURL(url)
+    .then((supported) => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log("Don't know how to open this URL: " + url);
+      }
+    })
+    .catch((err) => console.error("An error occurred", err));
 };
