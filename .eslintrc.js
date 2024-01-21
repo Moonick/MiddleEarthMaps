@@ -28,7 +28,6 @@ module.exports = {
     plugins: ["prettier", "react", "react-hooks", "@typescript-eslint", "react"],
     rules: {
       indent: ["error", 2],
-      "no-unused-vars": 2,
       "no-console": "off",
       "react/display-name": "off",
       "max-len": [

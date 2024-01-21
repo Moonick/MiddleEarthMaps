@@ -21,5 +21,5 @@ const userLocationSlice = createSlice({
 
 export const { setUserLocation } = userLocationSlice.actions;
 
-export const selectUserLocation = (state: UserLocationState) => state.location;
+export const selectUserLocation = (state) => state.userLocation.location;
 export default userLocationSlice.reducer;

@@ -6,7 +6,7 @@ import { ConnectorType, PinType } from "./types";
 
 type Props = {
   list: PinType[];
-  onPinSelect: (selectedPin: PinType | null) => void;
+  onPinSelect: (selectedPin: PinType) => void;
 };
 
 const PinsList = ({ list, onPinSelect }: Props) => {

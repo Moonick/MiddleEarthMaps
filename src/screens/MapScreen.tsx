@@ -10,8 +10,7 @@ import CustomBotomSheet from "../components/CustomBotomSheet";
 import SearchBar from "../components/SearchBar";
 import PinsList from "../components/PinsList";
 import Pin from "../components/Pin";
-import useUserLocation from "../hooks/useUserLocation";
-import useFetchPins from "../hooks/useFetchPins";
+
 import { findClosestPins } from "../utils";
 import { selectUserLocation } from "../store/slices/userLocationSlice";
 import { selectPins } from "../store/slices/pinsSlice";
@@ -27,6 +26,7 @@ const MapScreen = () => {
   const fetchedPins = useSelector(selectPins);
 
   const mapRef = useRef(null);
+  const bottomSheetRef = useRef(null);
 
   useEffect(() => {
     if (location && fetchedPins.length) {
@@ -60,6 +60,7 @@ const MapScreen = () => {
 
   const onPinSelection = (pin: PinType) => {
     setSelectedPin(pin);
+    bottomSheetRef?.current?.collapse();
     mapRef.current?.animateToRegion(
       {
         latitude: pin.latitude,
@@ -67,12 +68,14 @@ const MapScreen = () => {
         latitudeDelta: 0.1,
         longitudeDelta: 0.1,
       },
-      1000,
+      0,
     );
   };
 
   const onFindMePress = () => {
     if (location && mapRef.current) {
+      bottomSheetRef?.current?.collapse();
+      setSelectedPin(null);
       mapRef.current?.animateToRegion(
         {
           latitude: location.latitude,
@@ -80,7 +83,7 @@ const MapScreen = () => {
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         },
-        1000,
+        0,
       );
     }
   };
@@ -88,6 +91,7 @@ const MapScreen = () => {
   const onCloseButtonPress = () => {
     onFindMePress();
     setSelectedPin(null);
+    bottomSheetRef?.current?.collapse();
   };
 
   return (
@@ -106,7 +110,7 @@ const MapScreen = () => {
       <View style={styles.findMeButton}>
         <MaterialCommunityIcons name="crosshairs-gps" size={24} color="#663399" onPress={onFindMePress} />
       </View>
-      <CustomBotomSheet>
+      <CustomBotomSheet ref={bottomSheetRef}>
         {selectedPin ? (
           <View style={styles.pinWrapper}>
             <View style={styles.closeButton}>
@@ -151,7 +155,7 @@ const styles = StyleSheet.create({
   findMeButton: {
     position: "absolute",
     backgroundColor: "#fff",
-    bottom: 150,
+    top: 300,
     right: 20,
     padding: 10,
     borderRadius: 100,

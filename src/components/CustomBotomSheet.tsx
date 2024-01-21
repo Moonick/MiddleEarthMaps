@@ -1,22 +1,17 @@
-import React, { forwardRef, useCallback, useMemo } from "react";
+import React, { ReactNode, forwardRef, useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 
 interface Props {
-  title: string;
-  children: React.FC;
+  title?: string;
+  children: ReactNode;
 }
 
-type Ref = BottomSheet;
-
-const CustomBotomSheet = forwardRef<Props, Ref>(({ title = "", children }, ref) => {
-  const snapPoints = useMemo(() => ["15%", "50%", "90%"], []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+const CustomBotomSheet = forwardRef<BottomSheet, Props>(({ title = "", children }, ref) => {
+  const snapPoints = useMemo(() => ["20%", "25%", "50%", "90%"], []);
 
   return (
-    <BottomSheet ref={ref} index={0} snapPoints={snapPoints} onChange={handleSheetChanges}>
+    <BottomSheet ref={ref} index={0} snapPoints={snapPoints}>
       <View style={styles.contentContainer}>
         <Text>{title}</Text>
         {children}
@@ -30,6 +25,8 @@ export default CustomBotomSheet;
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    padding: 15,
+    paddingTop: 0,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 });
