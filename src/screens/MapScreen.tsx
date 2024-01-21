@@ -68,7 +68,7 @@ const MapScreen = () => {
         latitudeDelta: 0.1,
         longitudeDelta: 0.1,
       },
-      0,
+      300,
     );
   };
 
@@ -83,7 +83,7 @@ const MapScreen = () => {
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         },
-        0,
+        300,
       );
     }
   };
@@ -120,8 +120,8 @@ const MapScreen = () => {
           </View>
         ) : (
           <>
-            <SearchBar initialPins={nearestPins} getResults={() => {}} />
-            <Text>Nearest</Text>
+            <SearchBar initialPins={nearestPins} getResults={() => { }} />
+            <Text style={styles.textBold}>Nearest</Text>
             <PinsList list={nearestPins} onPinSelect={onPinSelection} />
           </>
         )}
@@ -175,4 +175,8 @@ const styles = StyleSheet.create({
     padding: 10,
     zIndex: 1000,
   },
+  textBold: {
+    fontSize: 18,
+    fontWeight: "600"
+  }
 });
