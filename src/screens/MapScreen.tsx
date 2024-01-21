@@ -1,17 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { View, StyleSheet } from "react-native";
 
 import { PinType } from "../components/types";
-import CustomMarker from "../components/CustomMarker";
-import CustomBotomSheet from "../components/CustomBotomSheet";
-import SearchBar from "../components/SearchBar";
-import PinsList from "../components/PinsList";
-import Pin from "../components/Pin";
+import FindMeButton from "../components/FindMeButton";
+import MapComponent from "../components/MapComponent";
+import BottomSheetComponent from "../components/BottomSheetComponent";
 
-import { findClosestPins } from "../utils";
+import { findClosestPins, isPinInRegion } from "../utils";
 import { selectUserLocation } from "../store/slices/userLocationSlice";
 import { selectPins } from "../store/slices/pinsSlice";
 
@@ -34,23 +30,6 @@ const MapScreen = () => {
       setNearestPins(closestPins);
     }
   }, [location, fetchedPins]);
-
-  const isPinInRegion = (pin: PinType, region: any) => {
-    const latDeltaHalf = region.latitudeDelta / 2;
-    const lonDeltaHalf = region.longitudeDelta / 2;
-
-    const regionTop = region.latitude + latDeltaHalf;
-    const regionBottom = region.latitude - latDeltaHalf;
-    const regionLeft = region.longitude - lonDeltaHalf;
-    const regionRight = region.longitude + lonDeltaHalf;
-
-    return (
-      pin.latitude <= regionTop &&
-      pin.latitude >= regionBottom &&
-      pin.longitude >= regionLeft &&
-      pin.longitude <= regionRight
-    );
-  };
 
   const onRegionChangeComplete = (newRegion: any) => {
     const visiblePins = fetchedPins.filter((pin: PinType) => isPinInRegion(pin, newRegion));
@@ -89,43 +68,28 @@ const MapScreen = () => {
   };
 
   const onCloseButtonPress = () => {
-    onFindMePress();
     setSelectedPin(null);
     bottomSheetRef?.current?.collapse();
   };
 
   return (
     <View style={styles.container}>
-      <MapView
+      <MapComponent
         ref={mapRef}
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        initialRegion={location}
-        showsUserLocation={true}
+        showPins={showPins}
+        visiblePins={visiblePins}
+        userLocation={location}
+        onPinSelection={onPinSelection}
         onRegionChangeComplete={onRegionChangeComplete}
-      >
-        {showPins &&
-          visiblePins.map((pin) => <CustomMarker key={pin._id} {...pin} onSelect={() => onPinSelection(pin)} />)}
-      </MapView>
-      <View style={styles.findMeButton}>
-        <MaterialCommunityIcons name="crosshairs-gps" size={24} color="#663399" onPress={onFindMePress} />
-      </View>
-      <CustomBotomSheet ref={bottomSheetRef}>
-        {selectedPin ? (
-          <View style={styles.pinWrapper}>
-            <View style={styles.closeButton}>
-              <AntDesign name="close" size={24} color="#663399" onPress={onCloseButtonPress} />
-            </View>
-            <Pin {...selectedPin} />
-          </View>
-        ) : (
-          <>
-            <SearchBar initialPins={nearestPins} getResults={() => { }} />
-            <Text style={styles.textBold}>Nearest</Text>
-            <PinsList list={nearestPins} onPinSelect={onPinSelection} />
-          </>
-        )}
-      </CustomBotomSheet>
+      />
+      <FindMeButton onFindMePress={onFindMePress} />
+      <BottomSheetComponent
+        ref={bottomSheetRef}
+        selectedPin={selectedPin}
+        nearestPins={nearestPins}
+        onPinSelection={onPinSelection}
+        onCloseButtonPress={onCloseButtonPress}
+      />
     </View>
   );
 };
@@ -152,19 +116,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  findMeButton: {
-    position: "absolute",
-    backgroundColor: "#fff",
-    top: 300,
-    right: 20,
-    padding: 10,
-    borderRadius: 100,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 0.3,
-  },
   pinWrapper: {
     position: "relative",
   },
@@ -177,6 +128,6 @@ const styles = StyleSheet.create({
   },
   textBold: {
     fontSize: 18,
-    fontWeight: "600"
-  }
+    fontWeight: "600",
+  },
 });

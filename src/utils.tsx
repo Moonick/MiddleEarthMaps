@@ -1,11 +1,28 @@
 import { PinType, LocationType } from "./components/types";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
+
+export const isPinInRegion = (pin: PinType, region: any): boolean => {
+  const latDeltaHalf = region.latitudeDelta / 2;
+  const lonDeltaHalf = region.longitudeDelta / 2;
+
+  const regionTop = region.latitude + latDeltaHalf;
+  const regionBottom = region.latitude - latDeltaHalf;
+  const regionLeft = region.longitude - lonDeltaHalf;
+  const regionRight = region.longitude + lonDeltaHalf;
+
+  return (
+    pin.latitude <= regionTop &&
+    pin.latitude >= regionBottom &&
+    pin.longitude >= regionLeft &&
+    pin.longitude <= regionRight
+  );
+};
 
 const deg2rad = (deg: number): number => {
   return deg * (Math.PI / 180);
 };
 
-const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+export const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371; // Radius of the earth in km
   const dLat = deg2rad(lat2 - lat1);
   const dLon = deg2rad(lon2 - lon1);
@@ -17,7 +34,7 @@ const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => 
   return distance;
 };
 
-const findClosestPins = (userLocation: LocationType, pins: PinType[], maxPins: number = 15) => {
+export const findClosestPins = (userLocation: LocationType, pins: PinType[], maxPins: number = 15) => {
   return pins
     .map((pin) => ({
       ...pin,
@@ -27,7 +44,7 @@ const findClosestPins = (userLocation: LocationType, pins: PinType[], maxPins: n
     .slice(0, maxPins);
 };
 
-const getPinAddress = async (latitude: number, longitude: number) => {
+export const getPinAddress = async (latitude: number, longitude: number) => {
   try {
     const results = await Location.reverseGeocodeAsync({
       latitude,
@@ -36,23 +53,15 @@ const getPinAddress = async (latitude: number, longitude: number) => {
 
     if (results.length > 0) {
       const firstResult = results[0];
-      const addressParts = [
-        firstResult.street,
-        firstResult.city,
-        firstResult.region,
-        firstResult.country
-      ];
-      const address = addressParts.filter(part => part != null).join(', ');
+      const addressParts = [firstResult.street, firstResult.city, firstResult.region, firstResult.country];
+      const address = addressParts.filter((part) => part != null).join(", ");
 
-      return address.length > 0 ? address : 'Address details not available';
+      return address.length > 0 ? address : "Address details not available";
     } else {
-      return 'Address not found';
+      return "Address not found";
     }
   } catch (error) {
     console.error(error);
-    return 'Error fetching address';
+    return "Error fetching address";
   }
 };
-
-export { getDistance, findClosestPins, getPinAddress };
-
