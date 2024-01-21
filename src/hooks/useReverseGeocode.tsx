@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import * as Location from 'expo-location';
-import { LocationGeocodedAddress } from 'expo-location';
+import { useState, useEffect } from "react";
+import * as Location from "expo-location";
+import { LocationGeocodedAddress } from "expo-location";
 
 type ReverseGeocodeProps = {
   latitude: number;
@@ -25,7 +25,7 @@ const useReverseGeocode = ({ latitude, longitude }: ReverseGeocodeProps): Revers
         if (results.length > 0) {
           setAddress(results[0]);
         } else {
-          setError('No address found for the given coordinates.');
+          setError("No address found for the given coordinates.");
         }
       } catch (err) {
         setError(err.message);

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -169,6 +169,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     padding: 10,
-    zIndex: 1000
+    zIndex: 1000,
   },
 });

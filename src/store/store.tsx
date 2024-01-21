@@ -1,6 +1,5 @@
-
-import { configureStore } from '@reduxjs/toolkit';
-import userLocationReducer from './slices/userLocationSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import userLocationReducer from "./slices/userLocationSlice";
 import pinsReducer from "./slices/pinsSlice";
 
 export const store = configureStore({

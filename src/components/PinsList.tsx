@@ -1,26 +1,23 @@
 import React, { useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Card, Text as TextCard } from 'react-native-paper';
+import { Card, Text as TextCard } from "react-native-paper";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { ConnectorType, PinType } from "./types";
 
-type Props =  {
-  list: PinType[],
+type Props = {
+  list: PinType[];
   onPinSelect: (selectedPin: PinType | null) => void;
 };
 
-
-const PinsList = ({ list, onPinSelect }:  Props) => {
-
+const PinsList = ({ list, onPinSelect }: Props) => {
   const renderConnector = ({ type, status }: ConnectorType, index: number) => {
     return (
-      <Card.Content key={type+index}>
+      <Card.Content key={type + index}>
         <TextCard variant="bodyMedium">{`Type: ${type}`}</TextCard>
         <TextCard variant="bodyMedium">{`Status: ${status}`}</TextCard>
-        </Card.Content>
-
-    )
-  }
+      </Card.Content>
+    );
+  };
   const renderItem = useCallback(({ index, item }: { index: number; item: PinType }) => {
     const { title = "", latitude, longitude, connectors } = item;
     const availableConnectors = connectors.filter((el) => el.status === "available");
@@ -36,7 +33,6 @@ const PinsList = ({ list, onPinSelect }:  Props) => {
           {connectors.map(renderConnector)}
         </Card.Content>
       </Card>
-
     );
   }, []);
 

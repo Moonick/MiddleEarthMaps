@@ -9,7 +9,7 @@ export interface PinType {
   longitude: number;
   title: string;
   connectors: ConnectorType[];
-};
+}
 
 export type LocationType = {
   latitude: number;
@@ -17,4 +17,3 @@ export type LocationType = {
   latitudeDelta: number;
   longitudeDelta: number;
 } | null;
-

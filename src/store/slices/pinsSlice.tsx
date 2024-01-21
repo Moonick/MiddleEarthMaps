@@ -1,6 +1,5 @@
-
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PinType } from '../../components/types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PinType } from "../../components/types";
 
 interface PinsState {
   pins: PinType[];
@@ -11,7 +10,7 @@ const initialState: PinsState = {
 };
 
 export const pinsSlice = createSlice({
-  name: 'pins',
+  name: "pins",
   initialState,
   reducers: {
     setPins: (state, action: PayloadAction<PinType[]>) => {

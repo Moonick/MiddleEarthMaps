@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux";
 import { setUserLocation } from "../store/slices/userLocationSlice";
 
 const useUserLocation = () => {
@@ -21,12 +21,14 @@ const useUserLocation = () => {
 
       try {
         const location = await Location.getCurrentPositionAsync({});
-        dispatch(setUserLocation({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }));
+        dispatch(
+          setUserLocation({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }),
+        );
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);

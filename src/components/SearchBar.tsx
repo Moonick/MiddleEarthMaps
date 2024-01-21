@@ -6,7 +6,7 @@ import { PinType } from "./types";
 
 type Props = {
   initialPins: PinType[];
-  getResults: any
+  getResults: any;
 };
 
 const SearchBar = ({ initialPins, getResults }: Props) => {
@@ -24,7 +24,7 @@ const SearchBar = ({ initialPins, getResults }: Props) => {
 
     getResults(filtered);
   };
-  
+
   return <Searchbar style={styles.searchBar} placeholder="Search" value={searchQuery} onChangeText={setSearchQuery} />;
 };
 
