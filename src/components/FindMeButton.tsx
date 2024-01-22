@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
   findMeButton: {
     position: "absolute",
     backgroundColor: "#fff",
-    bottom: 0, // Position at the bottom of the screen
+    bottom: 0,
     right: 20,
-    width: 45, // Adjust to your button's size
-    height: 45, // Adjust to your button's size
+    width: 45,
+    height: 45, 
     padding: 10,
     borderRadius: 100,
     elevation: 3,

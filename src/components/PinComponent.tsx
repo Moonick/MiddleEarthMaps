@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, DataTable } from "react-native-paper";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 import { PinType } from "./types";
 import { openDirections } from "../utils";
@@ -13,7 +12,7 @@ const PinComponent = ({ title = "", latitude, longitude, connectors }: PinType) 
   const availableConnectors = connectors.filter((el) => el.status === "available");
 
   return (
-    <>
+    <View style={styles.wrapper}>
       <View style={styles.header}>
         <PinHeader
           title={title}
@@ -24,8 +23,13 @@ const PinComponent = ({ title = "", latitude, longitude, connectors }: PinType) 
         />
       </View>
 
-      <Button style={styles.directionsButton} mode="contained" onPress={() => openDirections({ longitude, latitude })}>
-        <FontAwesome5 name="directions" size={16} color="#fff" />
+      <Button
+        icon="directions"
+        mode="contained"
+        textColor="#fff"
+        style={styles.button}
+        onPress={() => openDirections({ longitude, latitude })}
+      >
         Get Direcrtions
       </Button>
       <DataTable>
@@ -49,13 +53,17 @@ const PinComponent = ({ title = "", latitude, longitude, connectors }: PinType) 
           </DataTable.Row>
         ))}
       </DataTable>
-    </>
+    </View>
   );
 };
 
 export default PinComponent;
 
 const styles = StyleSheet.create({
+  wrapper: {
+    width: "100%",
+    margin: 0,
+  },
   header: {
     flexDirection: "column",
     borderBottomWidth: 1,
@@ -85,18 +93,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#757575",
   },
-  directionsButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 15,
+  button: {
+    marginTop: 15,
+    marginBottom: 7,
+    marginLeft: 7,
+    marginRight: 7,
   },
   available: {
     padding: 5,
     color: "#fff",
     backgroundColor: "#6dc770",
     borderRadius: 100,
-    minWidth: 100,
+    minWidth: 90,
     textAlign: "center",
     alignItems: "center",
   },
@@ -104,7 +112,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#f47e75",
     borderRadius: 100,
-    minWidth: 100,
+    minWidth: 90,
     textAlign: "center",
     alignItems: "center",
   },
