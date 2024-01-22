@@ -14,7 +14,7 @@ import { selectPins, selectSearchQuery, selectSearchResult } from "../store/slic
 import { selectUserLocation } from "../store/slices/userLocationSlice";
 
 interface Props {
-  selectedPin: PinType | null;
+  selectedPin: PinType;
   animatedPosition: SharedValue<number>;
   onPinSelection: (pin: PinType) => void;
   onCloseButtonPress: () => void;
