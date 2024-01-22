@@ -11,7 +11,7 @@ const CustomBotomSheet = forwardRef<BottomSheet, Props>(({ title = "", children 
   const snapPoints = useMemo(() => ["20%", "25%", "50%", "90%"], []);
 
   return (
-    <BottomSheet ref={ref} index={0} snapPoints={snapPoints}>
+    <BottomSheet ref={ref} backgroundStyle={{ backgroundColor: "#F8F8F8"}} index={0} snapPoints={snapPoints}>
       <View style={styles.contentContainer}>
         <Text>{title}</Text>
         {children}

@@ -1,36 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, DataTable } from "react-native-paper";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import { PinType } from "./types";
-import { getPinAddress, openDirections } from "../utils";
+import { openDirections } from "../utils";
+import PinHeader from "./PinHeader";
+import usePinAddress from "../hooks/usePinAdress";
 
 const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
-  const [pinAddress, setPinAddress] = useState("");
+  const { pinAddress, errorMsg } = usePinAddress(latitude, longitude);
   const availableConnectors = connectors.filter((el) => el.status === "available");
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      if (latitude && longitude) {
-        const address = await getPinAddress(latitude, longitude);
-        setPinAddress(address);
-      }
-    };
-    fetchAddress();
-  }, [latitude, longitude]);
 
   return (
     <>
       <View style={styles.header}>
-        <View style={styles.titleWapper}>
-          <Text style={styles.headerTitle}>{title}</Text>
-          <View style={styles.connectorsWapper}>
-            <Text style={styles.connectorsTitle}>{availableConnectors.length}</Text>
-            <Text style={styles.headerTitle}>{`/${connectors.length}`}</Text>
-          </View>
-        </View>
-        <Text style={styles.headerAddress}>{pinAddress}</Text>
+        <PinHeader
+          title={title}
+          availableConnectors={availableConnectors.length}
+          connectors={connectors.length}
+          pinAddress={pinAddress}
+          addressErrorMsg={errorMsg}
+        />
       </View>
 
       <Button style={styles.directionsButton} mode="contained" onPress={() => openDirections({ longitude, latitude })}>
@@ -40,16 +31,16 @@ const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Type</DataTable.Title>
-          <DataTable.Title>Longitude</DataTable.Title>
-          <DataTable.Title>Latitude</DataTable.Title>
+          <DataTable.Title>Power</DataTable.Title>
+          <DataTable.Title>Price</DataTable.Title>
           <DataTable.Title>Status</DataTable.Title>
         </DataTable.Header>
 
         {connectors.map(({ type, status }, index) => (
           <DataTable.Row key={type + index}>
             <DataTable.Cell>{type}</DataTable.Cell>
-            <DataTable.Cell>{longitude}</DataTable.Cell>
-            <DataTable.Cell>{latitude}</DataTable.Cell>
+            <DataTable.Cell>100.0 kW</DataTable.Cell>
+            <DataTable.Cell>$0.62/kWh</DataTable.Cell>
             <DataTable.Cell>
               <View style={status === "available" ? styles.available : styles.unavailable}>
                 <Text style={styles.textStatus}>{status}</Text>
