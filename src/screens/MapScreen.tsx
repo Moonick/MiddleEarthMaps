@@ -8,15 +8,14 @@ import FindMeButton from "../components/FindMeButton";
 import MapComponent from "../components/MapComponent";
 import BottomSheetComponent from "../components/BottomSheetComponent";
 
-import { findClosestPins, isPinInRegion } from "../utils";
+import { isPinInRegion } from "../utils";
 import { selectUserLocation } from "../store/slices/userLocationSlice";
-import { selectPins } from "../store/slices/pinsSlice";
+import { selectPins, selectSearchResult } from "../store/slices/pinsSlice";
 
 const ZOOM_THRESHOLD = 20;
 
 const MapScreen = () => {
   const [visiblePins, setVisiblePins] = useState<PinType[]>([]);
-  const [nearestPins, setNearestPins] = useState<PinType[]>([]);
   const [selectedPin, setSelectedPin] = useState<PinType | null>(null);
   const [showPins, setShowPins] = useState<boolean>(false);
   const animatedPosition = useSharedValue(0);
@@ -26,13 +25,6 @@ const MapScreen = () => {
   const mapRef = useRef(null);
   const bottomSheetRef = useRef(null);
 
-  useEffect(() => {
-    if (location && fetchedPins.length) {
-      const closestPins = findClosestPins(location, fetchedPins);
-      setNearestPins(closestPins);
-    }
-  }, [location, fetchedPins]);
-
   const onRegionChangeComplete = (newRegion: any) => {
     const visiblePins = fetchedPins.filter((pin: PinType) => isPinInRegion(pin, newRegion));
     setVisiblePins(visiblePins);
@@ -40,8 +32,11 @@ const MapScreen = () => {
   };
 
   const onPinSelection = (pin: PinType) => {
+    if (selectedPin?.latitude === pin?.latitude && selectedPin?.longitude === pin?.longitude) {
+      return;
+    }
     setSelectedPin(pin);
-    bottomSheetRef?.current?.collapse();
+    bottomSheetRef?.current?.snapToIndex(1);
     mapRef.current?.animateToRegion(
       {
         latitude: pin.latitude,
@@ -55,7 +50,7 @@ const MapScreen = () => {
 
   const onFindMePress = () => {
     if (location && mapRef.current) {
-      bottomSheetRef?.current?.collapse();
+      bottomSheetRef?.current?.snapToIndex(1);
       setSelectedPin(null);
       mapRef.current?.animateToRegion(
         {
@@ -71,7 +66,7 @@ const MapScreen = () => {
 
   const onCloseButtonPress = () => {
     setSelectedPin(null);
-    bottomSheetRef?.current?.collapse();
+    bottomSheetRef?.current?.snapToIndex(1);
   };
 
   return (
@@ -88,7 +83,6 @@ const MapScreen = () => {
       <BottomSheetComponent
         ref={bottomSheetRef}
         selectedPin={selectedPin}
-        nearestPins={nearestPins}
         animatedPosition={animatedPosition}
         onPinSelection={onPinSelection}
         onCloseButtonPress={onCloseButtonPress}

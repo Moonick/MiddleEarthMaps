@@ -2,30 +2,31 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
 import useDebounce from "../hooks/useDebounce";
-import { PinType } from "./types";
+import { useSelector } from "react-redux";
+import { selectPins, setSearchQuery, setSearchResult } from "../store/slices/pinsSlice";
+import { useDispatch } from "react-redux";
 
-type Props = {
-  initialPins: PinType[];
-  getResults: any;
-};
-
-const SearchBar = ({ initialPins, getResults }: Props) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+const SearchBar = () => {
+  const [inputValue, setInputValue] = useState("");
+  const fetchedPins = useSelector(selectPins);
+  const dispatch = useDispatch();
+  const debouncedSearchQuery = useDebounce(inputValue, 500);
 
   useEffect(() => {
+    dispatch(setSearchQuery(debouncedSearchQuery));
     handleSearch(debouncedSearchQuery);
   }, [debouncedSearchQuery]);
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
-
-    const filtered = initialPins.filter(({ title }) => title.toLowerCase().includes(query.toLowerCase()));
-
-    getResults(filtered);
+    if (query.length) {
+      const filtered = fetchedPins.filter(({ title }) => title.toLowerCase().includes(query.toLowerCase()));
+      dispatch(setSearchResult(filtered));
+    } else {
+      dispatch(setSearchResult([]));
+    }
   };
 
-  return <Searchbar style={styles.searchBar} placeholder="Search" value={searchQuery} onChangeText={setSearchQuery} />;
+  return <Searchbar style={styles.searchBar} placeholder="Search" value={inputValue} onChangeText={setInputValue} />;
 };
 
 export default SearchBar;
