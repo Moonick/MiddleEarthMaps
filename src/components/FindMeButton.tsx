@@ -1,16 +1,26 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
+import Animated, { SharedValue, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface Props {
+  animatedPosition: SharedValue<number>;
   onFindMePress: () => void;
 }
 
-const FindMeButton: React.FC<Props> = ({ onFindMePress }) => {
+const FindMeButton: React.FC<Props> = ({ animatedPosition, onFindMePress }) => {
+  const animatedButtonStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(animatedPosition.value, [100, 600], [-700, -180]);
+
+    return {
+      transform: [{ translateY }],
+    };
+  });
+
   return (
-    <View style={styles.findMeButton}>
+    <Animated.View style={[styles.findMeButton, animatedButtonStyle]}>
       <MaterialCommunityIcons name="crosshairs-gps" size={24} color="#663399" onPress={onFindMePress} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -20,8 +30,10 @@ const styles = StyleSheet.create({
   findMeButton: {
     position: "absolute",
     backgroundColor: "#fff",
-    top: 300,
+    bottom: 0, // Position at the bottom of the screen
     right: 20,
+    width: 45, // Adjust to your button's size
+    height: 45, // Adjust to your button's size
     padding: 10,
     borderRadius: 100,
     elevation: 3,
@@ -29,5 +41,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     shadowOpacity: 0.3,
+    zIndex: 1000,
   },
 });

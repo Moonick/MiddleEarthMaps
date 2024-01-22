@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useSharedValue } from "react-native-reanimated";
 import { View, StyleSheet } from "react-native";
 
 import { PinType } from "../components/types";
@@ -18,6 +19,7 @@ const MapScreen = () => {
   const [nearestPins, setNearestPins] = useState<PinType[]>([]);
   const [selectedPin, setSelectedPin] = useState<PinType | null>(null);
   const [showPins, setShowPins] = useState<boolean>(false);
+  const animatedPosition = useSharedValue(0);
   const location = useSelector(selectUserLocation);
   const fetchedPins = useSelector(selectPins);
 
@@ -82,11 +84,12 @@ const MapScreen = () => {
         onPinSelection={onPinSelection}
         onRegionChangeComplete={onRegionChangeComplete}
       />
-      <FindMeButton onFindMePress={onFindMePress} />
+      <FindMeButton animatedPosition={animatedPosition} onFindMePress={onFindMePress} />
       <BottomSheetComponent
         ref={bottomSheetRef}
         selectedPin={selectedPin}
         nearestPins={nearestPins}
+        animatedPosition={animatedPosition}
         onPinSelection={onPinSelection}
         onCloseButtonPress={onCloseButtonPress}
       />

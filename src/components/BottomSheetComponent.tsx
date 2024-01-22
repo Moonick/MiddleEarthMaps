@@ -1,23 +1,26 @@
 import React, { forwardRef } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { SharedValue } from "react-native-reanimated";
+import { AntDesign } from "@expo/vector-icons";
+
 import CustomBotomSheet from "./CustomBotomSheet";
 import PinComponent from "./PinComponent";
 import PinsList from "./PinsList";
-import { PinType } from "./types";
 import SearchBar from "./SearchBar";
-import { AntDesign } from "@expo/vector-icons";
+import { PinType } from "./types";
 
 interface Props {
   selectedPin: PinType | null;
   nearestPins: PinType[];
+  animatedPosition: SharedValue<number>;
   onPinSelection: (pin: PinType) => void;
   onCloseButtonPress: () => void;
 }
 
 const BottomSheetComponent = forwardRef<View, Props>(
-  ({ selectedPin, nearestPins, onPinSelection, onCloseButtonPress }, ref) => {
+  ({ selectedPin, nearestPins, animatedPosition, onPinSelection, onCloseButtonPress }, ref) => {
     return (
-      <CustomBotomSheet ref={ref}>
+      <CustomBotomSheet animatedPosition={animatedPosition} ref={ref}>
         {selectedPin ? (
           <View style={styles.pinWrapper}>
             <View style={styles.closeButton}>

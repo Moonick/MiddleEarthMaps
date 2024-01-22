@@ -1,22 +1,25 @@
 import React, { ReactNode, forwardRef, useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { SharedValue } from "react-native-reanimated";
 
 interface Props {
   title?: string;
+  animatedPosition: SharedValue<number>;
   children: ReactNode;
 }
 
-const CustomBotomSheet = forwardRef<BottomSheet, Props>(({ title = "", children }, ref) => {
-  const snapPoints = useMemo(() => ["20%", "25%", "50%", "90%"], []);
+const CustomBotomSheet = forwardRef<BottomSheet, Props>(({ title = "", animatedPosition, children }, ref) => {
+  const snapPoints = useMemo(() => [100, 200, 300, 500, 600], []);
 
   return (
     <BottomSheet
       ref={ref}
+      index={0}
       style={styles.shadow}
       backgroundStyle={{ backgroundColor: "#F8F8F8" }}
-      index={0}
       snapPoints={snapPoints}
+      animatedPosition={animatedPosition}
     >
       <View style={styles.contentContainer}>
         <Text>{title}</Text>

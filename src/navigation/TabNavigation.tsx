@@ -33,7 +33,11 @@ const TabNavigation: React.FC = () => {
   }
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#663399",
+      }}
+    >
       <Tab.Screen
         name="Explore"
         component={MapScreen}
