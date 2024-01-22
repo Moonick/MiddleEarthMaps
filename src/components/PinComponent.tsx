@@ -40,12 +40,16 @@ const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Type</DataTable.Title>
+          <DataTable.Title>Longitude</DataTable.Title>
+          <DataTable.Title>Latitude</DataTable.Title>
           <DataTable.Title>Status</DataTable.Title>
         </DataTable.Header>
 
         {connectors.map(({ type, status }, index) => (
           <DataTable.Row key={type + index}>
             <DataTable.Cell>{type}</DataTable.Cell>
+            <DataTable.Cell>{longitude}</DataTable.Cell>
+            <DataTable.Cell>{latitude}</DataTable.Cell>
             <DataTable.Cell>
               <View style={status === "available" ? styles.available : styles.unavailable}>
                 <Text style={styles.textStatus}>{status}</Text>
