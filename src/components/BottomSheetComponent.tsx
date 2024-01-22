@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import CustomBotomSheet from "./CustomBotomSheet";
-import Pin from "./PinComponent";
+import PinComponent from "./PinComponent";
 import PinsList from "./PinsList";
 import { PinType } from "./types";
 import SearchBar from "./SearchBar";
@@ -23,7 +23,7 @@ const BottomSheetComponent = forwardRef<View, Props>(
             <View style={styles.closeButton}>
               <AntDesign name="close" size={24} color="#663399" onPress={onCloseButtonPress} />
             </View>
-            <Pin {...selectedPin} />
+            <PinComponent {...selectedPin} />
           </View>
         ) : (
           <>

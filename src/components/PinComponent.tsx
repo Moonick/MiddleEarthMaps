@@ -8,7 +8,7 @@ import { openDirections } from "../utils";
 import PinHeader from "./PinHeader";
 import usePinAddress from "../hooks/usePinAdress";
 
-const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
+const PinComponent = ({ title = "", latitude, longitude, connectors }: PinType) => {
   const { pinAddress, errorMsg } = usePinAddress(latitude, longitude);
   const availableConnectors = connectors.filter((el) => el.status === "available");
 
@@ -53,13 +53,11 @@ const Pin = ({ title = "", latitude, longitude, connectors }: PinType) => {
   );
 };
 
-export default Pin;
+export default PinComponent;
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#ffffff",
     flexDirection: "column",
-    alignItems: "flex-start",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
     padding: 15,
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   available: {
-    padding: 7,
+    padding: 5,
     color: "#fff",
     backgroundColor: "#6dc770",
     borderRadius: 100,
@@ -103,8 +101,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   unavailable: {
-    padding: 7,
-    backgroundColor: "#f47e75", // Example color for unavailable
+    padding: 5,
+    backgroundColor: "#f47e75",
     borderRadius: 100,
     minWidth: 100,
     textAlign: "center",

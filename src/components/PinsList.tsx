@@ -10,6 +10,7 @@ interface PinItemProps {
   item: PinType;
   onPress: () => void;
 }
+
 const PinItem: React.FC<PinItemProps> = ({ item, onPress }) => {
   const { title = "", latitude, longitude, connectors } = item;
   const { pinAddress, errorMsg } = usePinAddress(latitude, longitude);
@@ -55,7 +56,6 @@ export default PinsList;
 
 const styles = StyleSheet.create({
   contentContainer: {
-    flex: 1,
     alignItems: "center",
   },
   card: {
