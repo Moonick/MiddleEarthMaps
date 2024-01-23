@@ -7,7 +7,6 @@ const app = express();
 const SERVER_IP = '192.168.1.186';
 const PORT = 3000;
 
-
 app.use(express.json());
 app.use(cors());
 
@@ -21,8 +20,19 @@ app.use((req, res, next) => {
 app.get(`/api/pins`, async(req, res) => {
   try {
     const filePath = path.join(process.cwd(), './data/react-native-interview-task-pins.json');
-    const pins = await fs.readFile(filePath, 'utf8');
-    res.json(JSON.parse(pins));
+    const pinsData = await fs.readFile(filePath, 'utf8');
+    const pinsArray = JSON.parse(pinsData);
+    const normalizedData = {
+      pins: {},
+      allIds: []
+    };
+
+    pinsArray.forEach(pin => {
+      normalizedData.pins[pin._id] = pin;
+      normalizedData.allIds.push(pin._id);
+    });
+
+    res.json(normalizedData);
   } catch (error) {
     console.error('Error reading pins file:', error);
     res.status(500).json({ message: 'Internal Server Error' + error });

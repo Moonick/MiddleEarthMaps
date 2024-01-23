@@ -5,11 +5,14 @@ interface Props {
   title: string;
   availableConnectors: number;
   connectors: number;
-  pinAddress: string;
-  addressErrorMsg: string;
+  latitude?: number;
+  longitude?: number;
+  pinAddress?: string;
+  addressErrorMsg?: string;
 }
 
-const PinHeader: React.FC<Props> = ({ title, availableConnectors, connectors, pinAddress, addressErrorMsg }) => {
+const PinHeader: React.FC<Props> = ({ title, availableConnectors, connectors, latitude=0, longitude=0, pinAddress = "", addressErrorMsg = "" }) => {
+
   return (
     <>
       <View style={styles.titleWapper}>
@@ -21,6 +24,7 @@ const PinHeader: React.FC<Props> = ({ title, availableConnectors, connectors, pi
           <Text style={styles.headerTitle}>{`/${connectors}`}</Text>
         </View>
       </View>
+      {latitude && latitude ? <Text>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Text> : null}
       <Text style={styles.headerAddress}>{pinAddress || addressErrorMsg}</Text>
     </>
   );

@@ -6,11 +6,10 @@ import { AntDesign } from "@expo/vector-icons";
 import CustomBotomSheet from "./CustomBotomSheet";
 import PinComponent from "./PinComponent";
 import PinsList from "./PinsList";
-import SearchBar from "./SearchBar";
 import { PinType } from "./types";
 import { findClosestPins } from "../utils";
 import { useSelector } from "react-redux";
-import { selectPins, selectSearchQuery, selectSearchResult } from "../store/slices/pinsSlice";
+import { selectPins, selectPinsIds } from "../store/slices/pinsSlice";
 import { selectUserLocation } from "../store/slices/userLocationSlice";
 
 interface Props {
@@ -24,15 +23,13 @@ const BottomSheetComponent = forwardRef<View, Props>(
   ({ selectedPin, animatedPosition, onPinSelection, onCloseButtonPress }, ref) => {
     const location = useSelector(selectUserLocation);
     const fetchedPins = useSelector(selectPins);
-    const searchResultPins = useSelector(selectSearchResult);
-    const searchQuery = useSelector(selectSearchQuery);
-
+    const allPinIds = useSelector(selectPinsIds);
     const nearestPins = useMemo(() => {
-      if (location && fetchedPins.length) {
-        return findClosestPins(location, fetchedPins);
+      if (location && allPinIds.length) {
+        return findClosestPins(location, fetchedPins, allPinIds);
       }
       return [];
-    }, [location, fetchedPins]);
+    }, [location, allPinIds]);
 
     const renderPinView = () => (
       <View style={styles.pinWrapper}>
@@ -43,37 +40,14 @@ const BottomSheetComponent = forwardRef<View, Props>(
       </View>
     );
 
-    const renderSearchResults = () => (
-      <>
-        {searchQuery.length > 0 &&
-          (searchResultPins.length > 0 ? (
-            <PinsList list={searchResultPins} onPinSelect={onPinSelection} />
-          ) : (
-            <Text>No search results</Text>
-          ))}
-      </>
-    );
-
-    const renderNearestPins = () => (
-      <>
-        {!searchQuery.length && (
-          <>
-            <Text style={styles.textBold}>Nearest locations</Text>
-            <PinsList list={nearestPins} onPinSelect={onPinSelection} />
-          </>
-        )}
-      </>
-    );
-
     return (
       <CustomBotomSheet animatedPosition={animatedPosition} ref={ref}>
         {selectedPin ? (
           renderPinView()
         ) : (
           <>
-            {/* <SearchBar /> */}
-            {renderSearchResults()}
-            {renderNearestPins()}
+            <Text style={styles.textBold}>Nearest locations</Text>
+            <PinsList list={nearestPins} onPinSelect={onPinSelection} />
           </>
         )}
       </CustomBotomSheet>

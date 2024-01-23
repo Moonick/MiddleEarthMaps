@@ -7,6 +7,10 @@ export const store = configureStore({
     userLocation: userLocationReducer,
     pins: pinsReducer,
   },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    immutableCheck: false,
+    serializableCheck: false,
+  })
 });
 
 export type RootState = ReturnType<typeof store.getState>;

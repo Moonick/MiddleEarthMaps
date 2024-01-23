@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { Card } from "react-native-paper";
-import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { FlatList } from "react-native-gesture-handler";
+
 import { PinType } from "./types";
 import PinHeader from "./PinHeader";
 import usePinAddress from "../hooks/usePinAdress";
@@ -13,7 +14,6 @@ interface PinItemProps {
 
 const PinItem: React.FC<PinItemProps> = ({ item, onPress }) => {
   const { title = "", latitude, longitude, connectors } = item;
-  const { pinAddress, errorMsg } = usePinAddress(latitude, longitude);
   const availableConnectors = connectors.filter((el) => el.status === "available");
 
   return (
@@ -23,8 +23,8 @@ const PinItem: React.FC<PinItemProps> = ({ item, onPress }) => {
           title={title}
           availableConnectors={availableConnectors.length}
           connectors={connectors.length}
-          pinAddress={pinAddress}
-          addressErrorMsg={errorMsg}
+          longitude={longitude}
+          latitude={latitude}
         />
       </Card.Content>
     </Card>
@@ -43,7 +43,7 @@ const PinsList = ({ list, onPinSelect }: Props) => {
   );
 
   return (
-    <BottomSheetFlatList
+    <FlatList
       data={list}
       keyExtractor={(i) => i.title}
       renderItem={renderItem}

@@ -11,6 +11,7 @@ const useFetchPins = () => {
   useEffect(() => {
     const fetchPins = async () => {
       try {
+        // Configure the endpoint URL to your local network IP.
         const response = await axios.get("http://192.168.1.2:3000/api/pins");
         dispatch(setPins(response.data));
         setLoading(false);

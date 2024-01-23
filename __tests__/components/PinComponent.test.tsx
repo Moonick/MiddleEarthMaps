@@ -29,7 +29,7 @@ describe("<PinComponent />", () => {
     const { getByText, queryAllByTestId } = render(<PinComponent {...mockedProps} />);
     await waitFor(() => {
       expect(getByText("Yang Ball")).toBeTruthy();
-      expect(getByText("Get Direcrtions")).toBeTruthy();
+      expect(getByText("Get Directions")).toBeTruthy();
       const connectorRows = queryAllByTestId("connectors-row");
       expect(connectorRows.length).toBe(connectors.length);
     });

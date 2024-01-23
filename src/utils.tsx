@@ -35,12 +35,15 @@ export const getDistance = (lat1: number, lon1: number, lat2: number, lon2: numb
   return distance;
 };
 
-export const findClosestPins = (userLocation: LocationType, pins: PinType[], maxPins: number = 15) => {
-  return pins
-    .map((pin) => ({
-      ...pin,
-      distance: getDistance(userLocation.latitude, userLocation.longitude, pin.latitude, pin.longitude),
-    }))
+export const findClosestPins = (userLocation: LocationType, pins: Pins, allPinIds: string[], maxPins = 15) => {
+  return allPinIds
+    .map((id) => {
+      const pin = pins[id];
+      return {
+        ...pin,
+        distance: getDistance(userLocation.latitude, userLocation.longitude, pin.latitude, pin.longitude),
+      };
+    })
     .sort((a, b) => a.distance - b.distance)
     .slice(0, maxPins);
 };
@@ -62,12 +65,11 @@ export const getPinAddress = async (latitude: number, longitude: number) => {
       return "Address not found";
     }
   } catch (error) {
-    console.error(error);
     return "Error fetching address";
   }
 };
 
-export const openDirections = ({ latitude, longitude }: { latitude: number, longitude: number }) => {
+export const openDirections = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
   const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
   Linking.canOpenURL(url)
     .then((supported) => {

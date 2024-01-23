@@ -30,7 +30,7 @@ const PinComponent = ({ title = "", latitude, longitude, connectors }: PinType) 
         style={styles.button}
         onPress={() => openDirections({ longitude, latitude })}
       >
-        Get Direcrtions
+        Get Directions
       </Button>
       <DataTable>
         <DataTable.Header>
