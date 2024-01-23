@@ -58,7 +58,7 @@ const BottomSheetComponent = forwardRef<View, Props>(
       <>
         {!searchQuery.length && (
           <>
-            <Text style={styles.textBold}>Nearest</Text>
+            <Text style={styles.textBold}>Nearest locations</Text>
             <PinsList list={nearestPins} onPinSelect={onPinSelection} />
           </>
         )}
@@ -71,7 +71,7 @@ const BottomSheetComponent = forwardRef<View, Props>(
           renderPinView()
         ) : (
           <>
-            <SearchBar />
+            {/* <SearchBar /> */}
             {renderSearchResults()}
             {renderNearestPins()}
           </>
