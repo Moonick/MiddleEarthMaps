@@ -28,31 +28,30 @@ Follow these steps to set up and run the app locally:
    ```bash
    cd MiddleEarthMaps
 
-3. Install dependencies for the client:
+3. Create an .env file with the keys from .env.example and add the IP of your local network and an availbale port for the backend service.
+
+4. Install dependencies for the client:
 
      ```bash
    yarn install 
    
-4. Install dependencies for the server (Express server):
+5. Install dependencies for the server (Express server):
 
     ```bash
    cd backend
    yarn install 
-      
-5. Start the development server for the client using Expo:
+
+6. Start the development server for the client using Expo:
 
     ```bash
    cd MiddleEarthMaps
    npx expo start 
 
-6. Start the Express server (in a separate terminal):
+7. Start the Express server (in a separate terminal):
 
     ```bash
    cd backend
    node app.js
-
-7. API Endpoint: Configure the endpoint URL to your local network IP, e.g., http://192.168.1.2:3000/api/pins. Replace 192.168.1.2 with your server's IP address.
-
 
 ### Running on a Physical Device
 
@@ -79,14 +78,3 @@ To run the Middle Earth Maps React Native app on a physical device, follow these
    - Open the camera app on your physical device.
    - Point the camera at the QR code displayed in your browser.
 
-Happy mapping!
-
-### Improvements
-
-1. User location - Implement a more user-friendly experience when the user denies location access. Provide clear instructions and options for the user to enable location services.
-2. Fetching data - Optimize the data fetching process to reduce loading times and improve app performance. Consider implementing data caching, pagination, or lazy loading for a smoother user experience.
-3. Serach bar - Add a search bar that allows users to search for specific pins or locations within the app.
-4. Pin Rendering - To improve app responsiveness, consider rendering pins in smaller chunks or batches, especially if the pin data set is large. This can prevent UI freezes and provide a smoother scrolling experience
-5. Offline Mode - Enable an offline mode that allows users to access previously viewed locations and pins even without an internet connection. Implement local data storage and synchronization when the app is online.
-6. Testing - include more integration tests
-7. Error Handling - provide informative error messages to users in case of failures or unexpected situations

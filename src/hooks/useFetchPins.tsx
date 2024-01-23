@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setPins } from "../store/slices/pinsSlice";
 
-const SERVER_IP = "192.168.1.2";
-
 const useFetchPins = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +12,9 @@ const useFetchPins = () => {
     const fetchPins = async () => {
       try {
         // Configure the endpoint URL to your local network IP.
-        const response = await axios.get(`http://${SERVER_IP}:3000/api/pins`);
+        const response = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_BACKEND_URL}:${process.env.EXPO_PUBLIC_BACKEND_PORT}/api/pins`,
+        );
         dispatch(setPins(response.data));
         setLoading(false);
       } catch (err: any) {
