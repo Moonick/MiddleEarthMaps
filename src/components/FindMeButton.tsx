@@ -19,7 +19,13 @@ const FindMeButton: React.FC<Props> = ({ animatedPosition, onFindMePress }) => {
 
   return (
     <Animated.View testID="button-wrapper-test-id" style={[styles.findMeButton, animatedButtonStyle]}>
-      <MaterialCommunityIcons testID="button-test-id" name="crosshairs-gps" size={24} color="#663399" onPress={onFindMePress}/>
+      <MaterialCommunityIcons
+        testID="button-test-id"
+        name="crosshairs-gps"
+        size={24}
+        color="#663399"
+        onPress={onFindMePress}
+      />
     </Animated.View>
   );
 };
@@ -33,7 +39,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 20,
     width: 45,
-    height: 45, 
+    height: 45,
     padding: 10,
     borderRadius: 100,
     elevation: 3,

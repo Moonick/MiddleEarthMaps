@@ -1,14 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PinType } from "../../components/types";
-type Pins = {
-  [key: string]: PinType;
-}
-interface PinsState {
-  pins: Pins;
-  allIds: string[];
-  searchResult: PinType[];
-  searchQuery: string;
-}
+import { Pins, PinsState, PinType, StateType } from "../../components/types";
 
 const initialState: PinsState = {
   pins: {},
@@ -18,26 +9,26 @@ const initialState: PinsState = {
 };
 
 export const pinsSlice = createSlice({
-  name: "pins",
+  name: "pinsState",
   initialState,
   reducers: {
-    setPins: (state, action: PayloadAction<{ pins: Pins, allIds: string[]}>) => {
+    setPins: (state: PinsState, action: PayloadAction<{ pins: Pins; allIds: string[] }>) => {
       state.pins = action.payload.pins;
       state.allIds = action.payload.allIds;
     },
-    setSearchResult: (state, action: PayloadAction<PinType[]>) => {
+    setSearchResult: (state: PinsState, action: PayloadAction<PinType[]>) => {
       state.searchResult = action.payload;
     },
-    setSearchQuery: (state, action: PayloadAction<string>) => {
+    setSearchQuery: (state: PinsState, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
   },
 });
 
 export const { setPins, setSearchResult, setSearchQuery } = pinsSlice.actions;
-export const selectPins = (state: PinsState) => state.pins.pins;
-export const selectPinsIds = (state: PinsState) => state.pins.allIds;
-export const selectSearchResult = (state: PinsState) => state.pins.searchResult;
-export const selectSearchQuery = (state: PinsState) => state.pins.searchQuery;
+export const selectPins = (state: StateType) => state.pinsState.pins;
+export const selectPinsIds = (state: StateType) => state.pinsState.allIds;
+export const selectSearchResult = (state: StateType) => state.pinsState.searchResult;
+export const selectSearchQuery = (state: StateType) => state.pinsState.searchQuery;
 
 export default pinsSlice.reducer;

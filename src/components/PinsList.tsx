@@ -32,11 +32,11 @@ const PinItem: React.FC<PinItemProps> = ({ item, onPress }) => {
 };
 
 type Props = {
-  list: PinType[];
+  list?: PinType[];
   onPinSelect: (selectedPin: PinType) => void;
 };
 
-const PinsList = ({ list, onPinSelect }: Props) => {
+const PinsList = ({ list = [], onPinSelect }: Props) => {
   const renderItem = useCallback(
     ({ item }: { item: PinType }) => <PinItem item={item} onPress={() => onPinSelect(item)} />,
     [onPinSelect],

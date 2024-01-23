@@ -27,7 +27,7 @@ const useReverseGeocode = ({ latitude, longitude }: ReverseGeocodeProps): Revers
         } else {
           setError("No address found for the given coordinates.");
         }
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
       } finally {
         setIsLoading(false);

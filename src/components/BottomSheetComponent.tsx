@@ -2,6 +2,7 @@ import React, { forwardRef, useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SharedValue } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
+import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 
 import CustomBotomSheet from "./CustomBotomSheet";
 import PinComponent from "./PinComponent";
@@ -13,13 +14,13 @@ import { selectPins, selectPinsIds } from "../store/slices/pinsSlice";
 import { selectUserLocation } from "../store/slices/userLocationSlice";
 
 interface Props {
-  selectedPin: PinType;
+  selectedPin: PinType | null;
   animatedPosition: SharedValue<number>;
   onPinSelection: (pin: PinType) => void;
   onCloseButtonPress: () => void;
 }
 
-const BottomSheetComponent = forwardRef<View, Props>(
+const BottomSheetComponent = forwardRef<BottomSheet, Props>(
   ({ selectedPin, animatedPosition, onPinSelection, onCloseButtonPress }, ref) => {
     const location = useSelector(selectUserLocation);
     const fetchedPins = useSelector(selectPins);
@@ -31,19 +32,17 @@ const BottomSheetComponent = forwardRef<View, Props>(
       return [];
     }, [location, allPinIds]);
 
-    const renderPinView = () => (
-      <View style={styles.pinWrapper}>
-        <View style={styles.closeButton}>
-          <AntDesign name="close" size={24} color="#663399" onPress={onCloseButtonPress} />
-        </View>
-        <PinComponent {...selectedPin} />
-      </View>
-    );
-
     return (
       <CustomBotomSheet animatedPosition={animatedPosition} ref={ref}>
         {selectedPin ? (
-          renderPinView()
+          <>
+            <View style={styles.pinWrapper}>
+              <View style={styles.closeButton}>
+                <AntDesign name="close" size={24} color="#663399" onPress={onCloseButtonPress} />
+              </View>
+              <PinComponent {...selectedPin} />
+            </View>
+          </>
         ) : (
           <>
             <Text style={styles.textBold}>Nearest locations</Text>

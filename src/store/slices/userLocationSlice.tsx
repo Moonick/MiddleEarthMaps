@@ -1,16 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LocationType } from "../../components/types";
-
-interface UserLocationState {
-  location: LocationType;
-}
+import { LocationType, StateType, UserLocationState } from "../../components/types";
 
 const initialState: UserLocationState = {
   location: null,
 };
 
 const userLocationSlice = createSlice({
-  name: "userLocation",
+  name: "userLocationState",
   initialState,
   reducers: {
     setUserLocation: (state: UserLocationState, action: PayloadAction<LocationType>) => {
@@ -21,5 +17,5 @@ const userLocationSlice = createSlice({
 
 export const { setUserLocation } = userLocationSlice.actions;
 
-export const selectUserLocation = (state) => state.userLocation.location;
+export const selectUserLocation = (state: StateType) => state.userLocationState.location;
 export default userLocationSlice.reducer;

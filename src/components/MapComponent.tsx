@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { StyleSheet } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Region } from "react-native-maps";
 import CustomMarker from "./CustomMarker";
 import { LocationType, PinType } from "./types";
 
@@ -19,7 +19,7 @@ const MapComponent = forwardRef<MapView, Props>(
         ref={ref}
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        initialRegion={userLocation}
+        initialRegion={userLocation as Region}
         showsUserLocation={true}
         onRegionChangeComplete={onRegionChangeComplete}
       >

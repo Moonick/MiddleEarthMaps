@@ -1,4 +1,4 @@
-import { PinType, LocationType } from "./components/types";
+import { PinType, LocationType, Pins } from "./components/types";
 import * as Location from "expo-location";
 import { Linking } from "react-native";
 
@@ -36,6 +36,10 @@ export const getDistance = (lat1: number, lon1: number, lat2: number, lon2: numb
 };
 
 export const findClosestPins = (userLocation: LocationType, pins: Pins, allPinIds: string[], maxPins = 15) => {
+  if (userLocation === null) {
+    return;
+  }
+
   return allPinIds
     .map((id) => {
       const pin = pins[id];

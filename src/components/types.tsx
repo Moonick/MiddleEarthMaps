@@ -17,3 +17,21 @@ export type LocationType = {
   latitudeDelta: number;
   longitudeDelta: number;
 } | null;
+
+export type Pins = Record<string, PinType>;
+
+export interface UserLocationState {
+  location: LocationType;
+}
+
+export interface PinsState {
+  pins: Pins;
+  allIds: string[];
+  searchResult: PinType[];
+  searchQuery: string;
+}
+
+export type StateType = {
+  userLocationState: UserLocationState;
+  pinsState: PinsState;
+};

@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSharedValue } from "react-native-reanimated";
+import MapView, { Region } from "react-native-maps";
 import { View, StyleSheet } from "react-native";
+import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 
 import { PinType } from "../components/types";
 import FindMeButton from "../components/FindMeButton";
@@ -23,13 +25,16 @@ const MapScreen = () => {
   const fetchedPins = useSelector(selectPins);
   const allPinIds = useSelector(selectPinsIds);
 
-  const mapRef = useRef(null);
-  const bottomSheetRef = useRef(null);
+  const mapRef = useRef<MapView>(null);
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const onRegionChangeComplete = (newRegion: any) => {
+  const onRegionChangeComplete = (newRegion: Region) => {
     const visiblePins = allPinIds
-      .filter((id: string) => isPinInRegion(fetchedPins[id], newRegion))
-      .map((id) => fetchedPins[id]);
+      .filter((id: string) => {
+        const pin = fetchedPins[id];
+        return isPinInRegion(pin, newRegion);
+      })
+      .map((id: string) => fetchedPins[id]);
     setVisiblePins(visiblePins);
     setShowPins(newRegion.latitudeDelta < ZOOM_THRESHOLD);
   };

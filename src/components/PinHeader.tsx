@@ -11,8 +11,15 @@ interface Props {
   addressErrorMsg?: string;
 }
 
-const PinHeader: React.FC<Props> = ({ title, availableConnectors, connectors, latitude=0, longitude=0, pinAddress = "", addressErrorMsg = "" }) => {
-
+const PinHeader: React.FC<Props> = ({
+  title,
+  availableConnectors,
+  connectors,
+  latitude = 0,
+  longitude = 0,
+  pinAddress = "",
+  addressErrorMsg = "",
+}) => {
   return (
     <>
       <View style={styles.titleWapper}>
