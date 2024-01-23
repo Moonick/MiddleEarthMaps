@@ -13,7 +13,7 @@ const CustomMarker = ({ latitude, longitude, connectors, onSelect }: Props) => {
   const availableConnectors = connectors.filter((el) => el.status === "available");
 
   return (
-    <Marker coordinate={{ latitude: latitude, longitude: longitude }} onPress={onSelect}>
+    <Marker testID="custom-marker-test-id" coordinate={{ latitude: latitude, longitude: longitude }} onPress={onSelect}>
       <View style={styles.bubble}>
         <RechargeIcon width={24} height={24} />
         <Text style={styles.name}>{`${availableConnectors.length}/${connectors.length}`}</Text>

@@ -19,7 +19,7 @@ const TabNavigation: React.FC = () => {
   if (loadingPins || loadingLocation) {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#7b2fc2" />
+        <ActivityIndicator size="large" color="#663399" />
       </View>
     );
   }
@@ -52,7 +52,7 @@ const TabNavigation: React.FC = () => {
         component={MyChargerScreen}
         options={{
           headerShown: false,
-          tabBarLabel: "MyCharger",
+          tabBarLabel: "My Charger",
           tabBarIcon: () => <Entypo name="home" size={24} color="#663399" />,
         }}
       />

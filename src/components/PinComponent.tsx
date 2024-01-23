@@ -41,7 +41,7 @@ const PinComponent = ({ title = "", latitude, longitude, connectors }: PinType) 
         </DataTable.Header>
 
         {connectors.map(({ type, status }, index) => (
-          <DataTable.Row key={type + index}>
+          <DataTable.Row key={type + index} testID="connectors-row">
             <DataTable.Cell>{type}</DataTable.Cell>
             <DataTable.Cell>100.0 kW</DataTable.Cell>
             <DataTable.Cell>$0.62/kWh</DataTable.Cell>

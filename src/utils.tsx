@@ -52,7 +52,7 @@ export const getPinAddress = async (latitude: number, longitude: number) => {
       longitude,
     });
 
-    if (results.length > 0) {
+    if (results?.length > 0) {
       const firstResult = results[0];
       const addressParts = [firstResult.street, firstResult.city, firstResult.region, firstResult.country];
       const address = addressParts.filter((part) => part != null).join(", ");

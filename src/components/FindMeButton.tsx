@@ -18,8 +18,8 @@ const FindMeButton: React.FC<Props> = ({ animatedPosition, onFindMePress }) => {
   });
 
   return (
-    <Animated.View style={[styles.findMeButton, animatedButtonStyle]}>
-      <MaterialCommunityIcons name="crosshairs-gps" size={24} color="#663399" onPress={onFindMePress} />
+    <Animated.View testID="button-wrapper-test-id" style={[styles.findMeButton, animatedButtonStyle]}>
+      <MaterialCommunityIcons testID="button-test-id" name="crosshairs-gps" size={24} color="#663399" onPress={onFindMePress}/>
     </Animated.View>
   );
 };
